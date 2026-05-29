@@ -36,5 +36,6 @@ A Flutter CRUD application using:
 #### Initial Loading State
 ![Loading](screenshots/load.png)
 
-#### Read Note Details
-![Read](screenshots/read.png)
+### 5. Error & Retry State
+Gracefully handles offline states or network issues, including a manual Retry option.
+![Error Screen](screenshots/error.png)
