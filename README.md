@@ -1,13 +1,11 @@
 # Notes App Flutter CRUD
 
 A Flutter CRUD application using:
-
 - Provider
 - HTTP package
 - JSONPlaceholder API
 
 ### Features
-
 - Create Notes
 - Read Notes
 - Update Notes

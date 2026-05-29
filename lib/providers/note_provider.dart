@@ -7,7 +7,7 @@ class NoteProvider extends ChangeNotifier {
 
   List<Note> _notes = [
     Note(id: 1, title: "Ruth's Hobbies", body: "Ruth likes to cook food and play piano.k"),
-    Note(id: 2, title: "Darik's Favorite Team", body: "Darik is a passionate Manchester United supporter!"),
+    Note(id: 2, title: "Darik's Favorite Team", body: "Darik is Manchester United supporter!"),
   ];
 
   bool _isLoading = false;
@@ -22,8 +22,8 @@ class NoteProvider extends ChangeNotifier {
     _errorMessage = '';
     notifyListeners();
 
-    try {
-      await _apiService.fetchNotes();
+   try {
+      _notes = await _apiService.fetchNotes();
     } catch (e) {
       _errorMessage = 'Could not load notes';
     } finally {
