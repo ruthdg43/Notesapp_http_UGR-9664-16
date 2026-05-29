@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/note_provider.dart';
-import '../providers/note_provider.dart';
 
 class AddNoteScreen extends StatefulWidget {
   const AddNoteScreen({super.key});
