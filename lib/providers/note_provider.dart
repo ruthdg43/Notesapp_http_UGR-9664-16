@@ -22,8 +22,8 @@ class NoteProvider extends ChangeNotifier {
     _errorMessage = '';
     notifyListeners();
 
-   try {
-      _notes = await _apiService.fetchNotes();
+    try {
+      await _apiService.fetchNotes();
     } catch (e) {
       _errorMessage = 'Could not load notes';
     } finally {
