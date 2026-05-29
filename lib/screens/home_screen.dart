@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/note_provider.dart';
 import '../widgets/note_card.dart';
-import '../widgets/aesthetic_background.dart';
 import 'add_note_screen.dart';
 import 'edit_note_screen.dart';
 import 'note_details_screen.dart';
@@ -61,65 +60,63 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: AestheticBackground(
-        child: Consumer<NoteProvider>(
-          builder: (context, noteProvider, child) {
-            if (noteProvider.isLoading && noteProvider.notes.isEmpty) {
-              return const Center(child: CircularProgressIndicator());
-            }
+      body: Consumer<NoteProvider>(
+        builder: (context, noteProvider, child) {
+          if (noteProvider.isLoading && noteProvider.notes.isEmpty) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            if (noteProvider.errorMessage.isNotEmpty && noteProvider.notes.isEmpty) {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      noteProvider.errorMessage,
-                      style: const TextStyle(color: Colors.red, fontSize: 16),
-                    ),
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () => noteProvider.fetchNotes(),
-                      child: const Text('Retry'),
-                    ),
-                  ],
-                ),
-              );
-            }
-
-            return ListView.builder(
-              itemCount: noteProvider.notes.length,
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              itemBuilder: (context, index) {
-                final note = noteProvider.notes[index];
-                return NoteCard(
-                  note: note,
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => NoteDetailsScreen(note: note),
-                      ),
-                    );
-                  },
-                  onEdit: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditNoteScreen(note: note),
-                      ),
-                    );
-                  },
-                  onDelete: () {
-                    if (note.id != null) {
-                      _showDeleteDialog(context, note.id!);
-                    }
-                  },
-                );
-              },
+          if (noteProvider.errorMessage.isNotEmpty && noteProvider.notes.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    noteProvider.errorMessage,
+                    style: const TextStyle(color: Colors.red, fontSize: 16),
+                  ),
+                  const SizedBox(height: 16),
+                  ElevatedButton(
+                    onPressed: () => noteProvider.fetchNotes(),
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
             );
-          },
-        ),
+          }
+
+          return ListView.builder(
+            itemCount: noteProvider.notes.length,
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            itemBuilder: (context, index) {
+              final note = noteProvider.notes[index];
+              return NoteCard(
+                note: note,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NoteDetailsScreen(note: note),
+                    ),
+                  );
+                },
+                onEdit: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditNoteScreen(note: note),
+                    ),
+                  );
+                },
+                onDelete: () {
+                  if (note.id != null) {
+                    _showDeleteDialog(context, note.id!);
+                  }
+                },
+              );
+            },
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
