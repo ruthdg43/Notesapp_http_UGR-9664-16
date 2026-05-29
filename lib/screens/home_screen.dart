@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/note_provider.dart';
 import '../widgets/note_card.dart';
+import '../widgets/aesthetic_background.dart';
 import 'add_note_screen.dart';
 import 'edit_note_screen.dart';
 import 'note_details_screen.dart';
@@ -50,79 +51,77 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F9F8),
       appBar: AppBar(
         title: const Text(
-          'Notes',
+          'My Notes',
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 24,
+            letterSpacing: 1.2,
           ),
         ),
-        centerTitle: true,
-        backgroundColor: const Color(0xFF009688),
-        foregroundColor: Colors.white,
-        elevation: 0,
       ),
-      body: Consumer<NoteProvider>(
-        builder: (context, noteProvider, child) {
-          if (noteProvider.isLoading && noteProvider.notes.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: AestheticBackground(
+        child: Consumer<NoteProvider>(
+          builder: (context, noteProvider, child) {
+            if (noteProvider.isLoading && noteProvider.notes.isEmpty) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          if (noteProvider.errorMessage.isNotEmpty && noteProvider.notes.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    noteProvider.errorMessage,
-                    style: const TextStyle(color: Colors.red, fontSize: 16),
-                  ),
-                  const SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: () => noteProvider.fetchNotes(),
-                    child: const Text('Retry'),
-                  ),
-                ],
-              ),
-            );
-          }
-
-          return ListView.builder(
-            itemCount: noteProvider.notes.length,
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            itemBuilder: (context, index) {
-              final note = noteProvider.notes[index];
-              return NoteCard(
-                note: note,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => NoteDetailsScreen(note: note),
+            if (noteProvider.errorMessage.isNotEmpty && noteProvider.notes.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      noteProvider.errorMessage,
+                      style: const TextStyle(color: Colors.red, fontSize: 16),
                     ),
-                  );
-                },
-                onEdit: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditNoteScreen(note: note),
+                    const SizedBox(height: 16),
+                    ElevatedButton(
+                      onPressed: () => noteProvider.fetchNotes(),
+                      child: const Text('Retry'),
                     ),
-                  );
-                },
-                onDelete: () {
-                  if (note.id != null) {
-                    _showDeleteDialog(context, note.id!);
-                  }
-                },
+                  ],
+                ),
               );
-            },
-          );
-        },
+            }
+
+            return ListView.builder(
+              itemCount: noteProvider.notes.length,
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              itemBuilder: (context, index) {
+                final note = noteProvider.notes[index];
+                return NoteCard(
+                  note: note,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NoteDetailsScreen(note: note),
+                      ),
+                    );
+                  },
+                  onEdit: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditNoteScreen(note: note),
+                      ),
+                    );
+                  },
+                  onDelete: () {
+                    if (note.id != null) {
+                      _showDeleteDialog(context, note.id!);
+                    }
+                  },
+                );
+              },
+            );
+          },
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
             context,
@@ -131,13 +130,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         },
-        backgroundColor: const Color(0xFF009688),
-        foregroundColor: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: const Icon(Icons.add, size: 28),
+        icon: const Icon(Icons.add, size: 24),
+        label: const Text('Add Note', style: TextStyle(fontWeight: FontWeight.bold)),
       ),
     );
   }
 }
+

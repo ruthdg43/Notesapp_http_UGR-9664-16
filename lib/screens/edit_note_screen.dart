@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/note_model.dart';
 import '../providers/note_provider.dart';
+import '../widgets/aesthetic_background.dart';
 
 class EditNoteScreen extends StatefulWidget {
   final Note note;
@@ -55,52 +56,65 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F9F8),
       appBar: AppBar(
         title: const Text('Edit Note', style: TextStyle(fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF009688),
-        foregroundColor: Colors.white,
       ),
-      body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      controller: _titleController,
-                      decoration: const InputDecoration(
-                        labelText: 'Title',
-                        border: OutlineInputBorder(),
+      body: AestheticBackground(
+        child: _isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: _titleController,
+                        decoration: InputDecoration(
+                          labelText: 'Title',
+                          labelStyle: const TextStyle(color: Color(0xFFF2709C)),
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(color: Color(0xFFFF85A1), width: 2),
+                          ),
+                        ),
+                        validator: (v) => (v == null || v.isEmpty) ? 'Please enter a title' : null,
                       ),
-                      validator: (v) => (v == null || v.isEmpty) ? 'Enter title' : null,
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _bodyController,
-                      maxLines: 5,
-                      decoration: const InputDecoration(
-                        labelText: 'Content',
-                        border: OutlineInputBorder(),
+                      const SizedBox(height: 16),
+                      TextFormField(
+                        controller: _bodyController,
+                        maxLines: 8,
+                        decoration: InputDecoration(
+                          labelText: 'Content',
+                          labelStyle: const TextStyle(color: Color(0xFFF2709C)),
+                          alignLabelWithHint: true,
+                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(16),
+                            borderSide: const BorderSide(color: Color(0xFFFF85A1), width: 2),
+                          ),
+                        ),
+                        validator: (v) => (v == null || v.isEmpty) ? 'Please enter content' : null,
                       ),
-                      validator: (v) => (v == null || v.isEmpty) ? 'Enter content' : null,
-                    ),
-                    const SizedBox(height: 24),
-                    ElevatedButton(
-                      onPressed: _save,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF009688),
-                        foregroundColor: Colors.white,
-                        minimumSize: const Size(double.infinity, 50),
+                      const SizedBox(height: 24),
+                      ElevatedButton(
+                        onPressed: _save,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFFFF85A1),
+                          foregroundColor: Colors.white,
+                          minimumSize: const Size(double.infinity, 56),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          elevation: 0,
+                        ),
+                        child: const Text('Save Changes', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                       ),
-                      child: const Text('Save Changes', style: TextStyle(fontSize: 18)),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
+      ),
     );
   }
 }
+

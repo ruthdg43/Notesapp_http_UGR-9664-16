@@ -18,8 +18,26 @@ class MyApp extends StatelessWidget {
         title: 'Notes App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
           useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFFFF85A1),
+            primary: const Color(0xFFFF85A1),
+            secondary: const Color(0xFFF2709C),
+            surface: const Color(0xFFFFF5F7),
+          ),
+          appBarTheme: const AppBarTheme(
+            backgroundColor: Color(0xFFFF85A1),
+            foregroundColor: Colors.white,
+            centerTitle: true,
+            elevation: 0,
+          ),
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: const Color(0xFFFF85A1),
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+          ),
         ),
         home: const HomeScreen(),
       ),

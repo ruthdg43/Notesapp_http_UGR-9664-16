@@ -24,8 +24,15 @@ class NoteCard extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF009688), width: 2),
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFFFF85A1).withOpacity(0.1),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+          border: Border.all(color: const Color(0xFFFF85A1).withOpacity(0.2), width: 1.5),
         ),
         child: Row(
           children: [
@@ -36,30 +43,47 @@ class NoteCard extends StatelessWidget {
                   Text(
                     note.title,
                     style: const TextStyle(
-                      color: Color(0xFF009688),
+                      color: Color(0xFFF2709C),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
+                      letterSpacing: 0.5,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     note.body,
-                    style: const TextStyle(
-                      color: Colors.black87,
-                      fontSize: 16,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontSize: 15,
+                      height: 1.4,
                     ),
                   ),
                 ],
               ),
             ),
             const SizedBox(width: 8),
-            IconButton(
-              icon: const Icon(Icons.edit, color: Color(0xFF009688)),
-              onPressed: onEdit,
+            Container(
+              decoration: BoxDecoration(
+                color: const Color(0xFFFF85A1).withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.edit_outlined, color: Color(0xFFF2709C), size: 22),
+                onPressed: onEdit,
+              ),
             ),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.red),
-              onPressed: onDelete,
+            const SizedBox(width: 8),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.red[50]!,
+                shape: BoxShape.circle,
+              ),
+              child: IconButton(
+                icon: const Icon(Icons.delete_outline, color: Colors.redAccent, size: 22),
+                onPressed: onDelete,
+              ),
             ),
           ],
         ),
